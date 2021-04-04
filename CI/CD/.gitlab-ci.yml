@@ -1,0 +1,61 @@
+variables:
+  TAG_NAME: font-end
+  BRANCH_NAME: test
+  IMAGE_NAME: IMAGE_NAME
+cache:
+  key: ${CI_COMMIT_REF_NAME} # 允许每个分支共用缓存}
+  paths:
+    - node_modules/
+stages:
+  - install
+  - lint
+  - test
+  - build
+  - deploy
+
+# include:
+  # - '/.gitlab-ci.other.yml'
+
+default:
+  tags:
+    - font-end
+
+# .common-config:
+#     tags:
+#       - font-end
+
+job-install-modules:
+  stage: install
+  script:
+    - npm install --production
+  # extends: .common-config
+  only:
+    refs:
+      - test # 不可以使用变量吗？
+      - tags 
+    changes:
+      - package.json
+
+job-build:
+  stage: build
+  # extends: .common-config
+  script:
+    - npm run build
+  only:
+    refs:
+      - test
+      - tags
+  artifacts:
+    paths:
+      - dist/
+
+job-deploy:
+  stage: deploy
+  only:
+      - test
+  script:
+    - docker build -t $IMAGE_NAME .
+    - docker login -u [username] -p [password] [ip]
+    - docker push $IMAGE_NAME
+    - docker rm -f [container] || true
+    - docker run -d --name [container] -p [point:point] $IMAGE_NAME
