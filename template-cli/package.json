@@ -1,0 +1,32 @@
+{
+  "name": "template-cli",
+  "bin": "bin/bin.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc",
+    "test": "tsc && node bin/bin.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "semi": true,
+    "trailingComma": "none"
+  },
+  "dependencies": {
+    "cac": "^6.7.2",
+    "chalk": "^4.1.0",
+    "child_process": "^1.0.2",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^8.0.0",
+    "ora": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.0",
+    "@types/inquirer": "^7.3.1",
+    "@types/node": "^14.14.37",
+    "events": "^3.3.0",
+    "typescript": "^4.2.4"
+  }
+}
